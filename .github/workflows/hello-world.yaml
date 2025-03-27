@@ -1,10 +1,10 @@
-name: Monorepo Hello World CI
+name: Precise Monorepo CI
 
 on:
   push:
     branches: 
       - main
-      - DevOps_Onboarding 
+      - DevOps_Onboarding
   pull_request:
     branches: 
       - main
@@ -33,7 +33,9 @@ jobs:
 
   hello-dashboard:
     needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.dashboard == 'true' }}
+    if: ${{ needs.detect-changes.outputs.dashboard == 'true' && 
+            needs.detect-changes.outputs.server == 'false' && 
+            needs.detect-changes.outputs.react-form == 'false' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -41,13 +43,16 @@ jobs:
     - name: Hello World for Dashboard
       run: |
         echo "Hello World from Analytics Dashboard!"
+        echo "Branch: ${{ github.ref_name }}"
         ls Analytics-Dashboard
         echo "Current directory contents:"
         pwd
 
   hello-server:
     needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.server == 'true' }}
+    if: ${{ needs.detect-changes.outputs.server == 'true' && 
+            needs.detect-changes.outputs.dashboard == 'false' && 
+            needs.detect-changes.outputs.react-form == 'false' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -55,13 +60,16 @@ jobs:
     - name: Hello World for Server
       run: |
         echo "Hello World from Analytics Server!"
+        echo "Branch: ${{ github.ref_name }}"
         ls Analytics-Server
         echo "Current directory contents:"
         pwd
 
   hello-react-form:
     needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.react-form == 'true' }}
+    if: ${{ needs.detect-changes.outputs.react-form == 'true' && 
+            needs.detect-changes.outputs.dashboard == 'false' && 
+            needs.detect-changes.outputs.server == 'false' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -69,14 +77,7 @@ jobs:
     - name: Hello World for React Form Analytics
       run: |
         echo "Hello World from React Form Analytics!"
+        echo "Branch: ${{ github.ref_name }}"
         ls React-Form-Analytics
         echo "Current directory contents:"
         pwd
-
-  hello-all:
-    if: ${{ always() }}
-    needs: [hello-dashboard, hello-server, hello-react-form]
-    runs-on: ubuntu-latest
-    steps:
-    - name: Final Hello World
-      run: echo "Workflow complete for all services!"
