@@ -1,0 +1,22 @@
+name: Analytics Dashboard Workflow
+
+on:
+  push:
+    branches: 
+      - main
+      - DevOps_Onboarding
+    paths:
+      - 'Analytics-Dashboard/**'
+  pull_request:
+    branches: 
+      - main
+      - DevOps_Onboarding
+    paths:
+      - 'Analytics-Dashboard/**'
+
+jobs:
+  dashboard-workflow:
+    uses: ./.github/workflows/service-workflow-template.yml
+    with:
+      service-path: Analytics-Dashboard
+      service-name: Analytics Dashboard

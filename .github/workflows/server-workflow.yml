@@ -1,0 +1,22 @@
+name: Analytics Server Workflow
+
+on:
+  push:
+    branches: 
+      - main
+      - DevOps_Onboarding
+    paths:
+      - 'Analytics-Server/**'
+  pull_request:
+    branches: 
+      - main
+      - DevOps_Onboarding
+    paths:
+      - 'Analytics-Server/**'
+
+jobs:
+  server-workflow:
+    uses: ./.github/workflows/service-workflow-template.yml
+    with:
+      service-path: Analytics-Server
+      service-name: Analytics Server

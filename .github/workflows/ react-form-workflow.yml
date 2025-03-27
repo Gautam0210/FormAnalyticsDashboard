@@ -1,0 +1,22 @@
+name: React Form Analytics Workflow
+
+on:
+  push:
+    branches: 
+      - main
+      - DevOps_Onboarding
+    paths:
+      - 'React-Form-Analytics/**'
+  pull_request:
+    branches: 
+      - main
+      - DevOps_Onboarding
+    paths:
+      - 'React-Form-Analytics/**'
+
+jobs:
+  react-form-workflow:
+    uses: ./.github/workflows/service-workflow-template.yml
+    with:
+      service-path: React-Form-Analytics
+      service-name: React Form Analytics
