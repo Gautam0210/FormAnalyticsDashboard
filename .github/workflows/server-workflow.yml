@@ -1,4 +1,4 @@
-name: Analytics Server Workflow
+name: Analytics Server Docker Workflow
 
 on:
   push:
@@ -19,4 +19,6 @@ jobs:
     uses: ./.github/workflows/service-workflow-template.yml
     with:
       service-path: Analytics-Server
-      service-name: Analytics Server
+      service-name: analytics-server
+      dockerfile-path: Dockerfile
+    secrets: inherit

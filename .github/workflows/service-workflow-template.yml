@@ -30,57 +30,18 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Extract metadata for Docker
-      id: meta
-      uses: docker/metadata-action@v4
-      with:
-        images: ghcr.io/${{ github.repository_owner }}/${{ inputs.service-name }}
-        tags: |
-          type=sha
-          type=raw,value=latest
-    
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v3
       with:
         context: ${{ inputs.service-path }}
         file: ${{ inputs.service-path }}/${{ inputs.dockerfile-path }}
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        tags: |
+          ghcr.io/${{ github.repository_owner }}/${{ inputs.service-name }}:latest
     
     - name: Verify Docker Image Details
       run: |
         echo "Image pushed to GitHub Container Registry"
         echo "Service Name: ${{ inputs.service-name }}"
         echo "Repository Owner: ${{ github.repository_owner }}"
-        echo "Full Image Tags:"
-        echo "${{ steps.meta.outputs.tags }}"
-
-# name: Service Workflow Template
-
-# on:
-#   workflow_call:
-#     inputs:
-#       service-path:
-#         required: true
-#         type: string
-#       service-name:
-#         required: true
-#         type: string
-
-# jobs:
-#   hello-world:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v3
-    
-#     - name: Hello World for ${{ inputs.service-name }}
-#       run: |
-#         echo "Hello World from ${{ inputs.service-name }}!"
-#         echo "Current Branch: ${{ github.ref_name }}"
-#         echo "Repository: ${{ github.repository }}"
-#         echo "Service Path: ${{ inputs.service-path }}"
-#         echo "Current Working Directory:"
-#         pwd
-#         echo "Contents of Service Directory:"
-#         ls -la ${{ inputs.service-path }}
+        echo "Image Tag: latest"
