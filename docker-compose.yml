@@ -20,14 +20,14 @@ services:
     restart: unless-stopped
 
   analytics-dashboard:
-    image: ghcr.io/vinit055/formanalyticsdashboard:latest
+    image: ghcr.io/gautam0210/analytics-dashboard:latest
     container_name: analytics-dashboard
     network_mode: host
     restart: unless-stopped
 
-  form-analytics:
-    image: ghcr.io/vinit055/formanalyticsserver:v1.0.0
-    container_name: form-analytics
+  analytics-server:
+    image: ghcr.io/gautam0210/analytics-server:latest
+    container_name: analytics-server
     network_mode: host
     restart: unless-stopped
 # To run: docker-compose up -d
